@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Register a village grievance - Gram Panchayat Transparent Complaint Portal. Report rural problems anonymously or with contact details.">
+  <title>Register Complaint | Gram Panchayat Transparent Complaint Portal</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+
+  <!-- TOP ACCESSIBILITY & PROTOTYPE NOTICE BAR -->
+  <aside class="top-announcement" aria-label="Prototype announcement and accessibility bar">
+    <div class="container announcement-content">
+      <div class="prototype-tag">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span class="badge-text"><strong>Stage 3 Backend Active:</strong> Python Flask + SQLite Persistent Database Connected</span>
+      </div>
+
+      <div class="top-controls">
+        <!-- Accessibility Font Controls -->
+        <div class="font-resizer" role="group" aria-label="Adjust font size">
+          <span class="ctrl-label">Text Size:</span>
+          <button type="button" id="btn-font-decrease" class="ctrl-btn" aria-label="Decrease text size" title="Smaller font">A-</button>
+          <button type="button" id="btn-font-reset" class="ctrl-btn active" aria-label="Reset text size" title="Standard font">A</button>
+          <button type="button" id="btn-font-increase" class="ctrl-btn" aria-label="Increase text size" title="Larger font">A+</button>
+        </div>
+
+        <!-- High Contrast Mode Toggle -->
+        <button type="button" id="btn-contrast-toggle" class="contrast-btn" aria-pressed="false" title="Switch high contrast mode">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 0 20Z"></path></svg>
+          <span>High Contrast</span>
+        </button>
+
+        <!-- Future Language Switcher Demo -->
+        <div class="lang-switch-wrap">
+          <label for="lang-selector" class="sr-only">Select Portal Language</label>
+          <select id="lang-selector" class="lang-select" aria-label="Language selector">
+            <option value="en" selected>English</option>
+            <option value="kn">ಕನ್ನಡ (Kannada Preview)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- HEADER & NAVIGATION -->
+  <header class="site-header" id="main-header">
+    <div class="container nav-container">
+      <!-- Portal Branding -->
+      <a href="index.html" class="brand-link" aria-label="Gram Panchayat Complaint Portal Home">
+        <div class="brand-emblem" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" class="emblem-svg">
+            <rect width="48" height="48" rx="12" fill="#18794e"/>
+            <path d="M24 8L10 19V38C10 39.1 10.9 40 12 40H36C37.1 40 38 39.1 38 38V19L24 8Z" fill="#ffffff" fill-opacity="0.2"/>
+            <path d="M24 12L13 21V38H35V21L24 12Z" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M24 22C21.79 22 20 23.79 20 26C20 28.5 24 33 24 33C24 33 28 28.5 28 26C28 23.79 26.21 22 24 22Z" fill="#ffffff"/>
+            <circle cx="24" cy="26" r="1.5" fill="#18794e"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Gram Panchayat</span>
+          <span class="brand-subtitle">Transparent Complaint Portal</span>
+          <span class="brand-kannada" lang="kn">ಗ್ರಾಮ ಪಂಚಾಯತ್ ದೂರು ಪರಿಹಾರ ವೇದಿಕೆ</span>
+        </div>
+      </a>
+
+      <!-- Mobile Navigation Hamburger -->
+      <button type="button" class="nav-toggle" id="nav-toggle-btn" aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <!-- Primary Navigation Links -->
+      <nav class="primary-nav" id="primary-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="index.html#categories" class="nav-link">Categories</a></li>
+          <li class="nav-item"><a href="index.html#how-it-works" class="nav-link">How It Works</a></li>
+          <li class="nav-item"><a href="index.html#tracking-demo" class="nav-link">Track Complaint</a></li>
+          <li class="nav-item"><a href="index.html#transparency" class="nav-link">Transparency</a></li>
+          <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="index.html" class="btn btn-outline-nav">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span>Back to Homepage</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN REGISTRATION CONTENT -->
+  <main class="registration-main">
+    <div class="container registration-container">
+      
+      <!-- Breadcrumb & Back Navigation -->
+      <nav class="breadcrumb-bar" aria-label="Breadcrumb navigation">
+        <a href="index.html" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span>Return to Homepage</span>
+        </a>
+        <span class="breadcrumb-separator" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Register a Complaint</span>
+      </nav>
+
+      <!-- Page Header -->
+      <div class="reg-page-header">
+        <div class="reg-badge">
+          <span class="icon-tag" aria-hidden="true">📝</span>
+          <span>Public Grievance Registration • ಸಾರ್ವಜನಿಕ ದೂರು ನೋಂದಣಿ</span>
+        </div>
+        <h1 class="reg-title">Report a Village Civic Problem</h1>
+        <p class="reg-lead">
+          Submit local problems regarding village roads, water supply, broken streetlights, or drainage.
+          You can choose to report <strong>100% anonymously</strong> or provide your contact details for officer verification.
+        </p>
+      </div>
+
+      <!-- Stage 3 Backend Active Callout -->
+      <div class="stage2-notice-banner" role="region" aria-label="Stage 3 backend information">
+        <div class="s2-icon" aria-hidden="true">🏛️</div>
+        <div class="s2-text">
+          <strong>Stage 3 Backend Connected (Flask + SQLite):</strong>
+          Complaints submitted here are verified by the server and stored persistently in the SQLite database.
+          Upon submission, you will receive an unpredictable public reference identifier and a cryptographically secure one-time tracking secret.
+        </div>
+      </div>
+
+      <!-- Global Error Summary Alert (hidden by default) -->
+      <div id="error-summary-box" class="validation-summary-alert" style="display: none;" role="alert" aria-live="assertive">
+        <div class="alert-icon" aria-hidden="true">⚠️</div>
+        <div class="alert-content">
+          <h2 class="alert-heading">Please correct the following errors before proceeding:</h2>
+          <ul id="error-summary-list" class="alert-error-list"></ul>
+        </div>
+      </div>
+
+      <!-- MAIN REGISTRATION FORM CARD -->
+      <section class="form-card" id="form-card-section" aria-labelledby="form-section-heading">
+        <h2 id="form-section-heading" class="sr-only">Complaint Registration Form</h2>
+
+        <form id="complaint-registration-form" novalidate>
+
+          <!-- 1. SUBMISSION MODE SELECTOR (ANONYMOUS VS IDENTIFIED) -->
+          <fieldset class="form-fieldset mode-fieldset">
+            <legend class="fieldset-legend">
+              <span class="legend-number">1</span>
+              <span>Select Submission Mode <span class="required">*</span></span>
+            </legend>
+            <p class="fieldset-desc">Choose whether you wish to remain anonymous or provide your details for Panchayat follow-up.</p>
+
+            <div class="mode-options-grid" role="radiogroup" aria-label="Submission Privacy Mode">
+              
+              <!-- Mode A: Anonymous -->
+              <label class="mode-card active" id="label-mode-anonymous">
+                <input type="radio" name="submission_mode" id="mode-anonymous" value="anonymous" checked class="mode-radio">
+                <div class="mode-card-content">
+                  <div class="mode-header">
+                    <span class="mode-icon" aria-hidden="true">🔒</span>
+                    <strong class="mode-title">Anonymous Complaint</strong>
+                    <span class="mode-badge-pill">Recommended for Privacy</span>
+                  </div>
+                  <span class="mode-kannada" lang="kn">ಗುಪ್ತ ದೂರು (ಹೆಸರು, ಫೋನ್ ಸಂಖ್ಯೆ ಅಗತ್ಯವಿಲ್ಲ)</span>
+                  <p class="mode-desc">
+                    No name, phone number, email, or account creation required. Your submission cannot be traced back to you.
+                  </p>
+                </div>
+                <div class="mode-select-indicator" aria-hidden="true">✓</div>
+              </label>
+
+              <!-- Mode B: With Identity -->
+              <label class="mode-card" id="label-mode-identified">
+                <input type="radio" name="submission_mode" id="mode-identified" value="identified" class="mode-radio">
+                <div class="mode-card-content">
+                  <div class="mode-header">
+                    <span class="mode-icon" aria-hidden="true">👤</span>
+                    <strong class="mode-title">Complaint with Identity</strong>
+                    <span class="mode-badge-pill">Direct Updates</span>
+                  </div>
+                  <span class="mode-kannada" lang="kn">ಸಂಪರ್ಕ ವಿವರಗಳೊಂದಿಗೆ ದೂರು</span>
+                  <p class="mode-desc">
+                    Provide your name and contact details so Panchayat field officers can contact you for site inspection or SMS updates.
+                  </p>
+                </div>
+                <div class="mode-select-indicator" aria-hidden="true">✓</div>
+              </label>
+
+            </div>
+
+            <!-- Mode Explanations -->
+            <div id="anonymous-explanation-box" class="mode-info-callout mode-anonymous-info">
+              <div class="info-icon" aria-hidden="true">🛡️</div>
+              <div class="info-content">
+                <strong>Privacy Limitations of Anonymous Reporting:</strong>
+                <p>
+                  Because no phone number or identity is recorded, Gram Panchayat officers <strong>cannot contact you for clarification or send you SMS alerts</strong>.
+                  You must note down your reference tracking code once the live tracking system is enabled.
+                </p>
+              </div>
+            </div>
+
+            <div id="identified-explanation-box" class="mode-info-callout mode-identified-info" style="display: none;">
+              <div class="info-icon" aria-hidden="true">🔒</div>
+              <div class="info-content">
+                <strong>How Your Information Will Be Used:</strong>
+                <p>
+                  Your contact information will be used <strong>strictly by designated Gram Panchayat grievance officers</strong> to verify the issue location or notify you of work completion.
+                  Your personal details are <strong>never published on the public ledger</strong> or shown to other villagers.
+                </p>
+              </div>
+            </div>
+
+          </fieldset>
+
+          <!-- 2. COMPLAINT DETAILS SECTION -->
+          <fieldset class="form-fieldset">
+            <legend class="fieldset-legend">
+              <span class="legend-number">2</span>
+              <span>Grievance Details <span class="required">*</span></span>
+            </legend>
+            <p class="fieldset-desc">Provide exact information about the civic problem in your village.</p>
+
+            <div class="form-grid">
+              
+              <!-- Complaint Category -->
+              <div class="form-field-group">
+                <label for="complaint-category" class="field-label">
+                  Complaint Category <span class="required" aria-hidden="true">*</span>
+                </label>
+                <select id="complaint-category" name="complaint_category" class="field-select" required aria-describedby="category-hint category-error">
+                  <option value="">-- Choose Category --</option>
+                  <option value="Roads & Pathways">Roads &amp; Pathways (ರಸ್ತೆ ಮತ್ತು ಕಾಲುದಾರಿಗಳು)</option>
+                  <option value="Water Supply">Drinking Water Supply (ಕುಡಿಯುವ ನೀರು ಸರಬರಾಜು)</option>
+                  <option value="Streetlights">Streetlights &amp; Lighting (ಬೀದಿ ದೀಪಗಳು)</option>
+                  <option value="Drainage & Gutters">Drainage &amp; Sewage (ಚರಂಡಿ ಮತ್ತು ಒಳಚರಂಡಿ)</option>
+                  <option value="Waste Management">Waste Management &amp; Garbage (ಘನ ತ್ಯಾಜ್ಯ ವಿಲೇವಾರಿ)</option>
+                  <option value="Public Sanitation">Public Sanitation &amp; Toilets (ಸಾರ್ವಜನಿಕ ನೈರ್ಮಲ್ಯ)</option>
+                  <option value="Other Village Issue">Other Village Issue (ಇತರ ಸಾರ್ವಜನಿಕ ಸಮಸ್ಯೆ)</option>
+                </select>
+                <div class="field-hint" id="category-hint">Select the civic service category that best matches your grievance.</div>
+                <div class="field-error" id="category-error" role="alert">Please select a valid complaint category.</div>
+              </div>
+
+              <!-- Village Name -->
+              <div class="form-field-group">
+                <label for="village-name" class="field-label">
+                  Village Name / Ward Number <span class="required" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="village-name" name="village_name" class="field-input" placeholder="e.g., Shanti Gram, Ward 3" required maxlength="100" aria-describedby="village-hint village-error">
+                <div class="field-hint" id="village-hint">Specify the village name and ward or settlement area.</div>
+                <div class="field-error" id="village-error" role="alert">Please enter the village name or ward.</div>
+              </div>
+
+            </div>
+
+            <!-- Problem Location -->
+            <div class="form-field-group full-width">
+              <label for="problem-location" class="field-label">
+                Specific Location &amp; Landmarks <span class="required" aria-hidden="true">*</span>
+              </label>
+              <input type="text" id="problem-location" name="problem_location" class="field-input" placeholder="e.g., Near Government Primary School, 50 meters from community borewell" required maxlength="200" aria-describedby="location-hint location-error">
+              <div class="field-hint" id="location-hint">Describe specific street names, nearby houses, or physical landmarks to help inspectors find the exact spot.</div>
+              <div class="field-error" id="location-error" role="alert">Please specify a location or landmark (at least 5 characters).</div>
+            </div>
+
+            <!-- Date Noticed (Optional) -->
+            <div class="form-field-group">
+              <label for="date-noticed" class="field-label">
+                Date Problem Was Noticed <span class="optional-tag">(Optional)</span>
+              </label>
+              <input type="date" id="date-noticed" name="date_noticed" class="field-input" aria-describedby="date-hint date-error">
+              <div class="field-hint" id="date-hint">Approximate date when this issue first occurred.</div>
+              <div class="field-error" id="date-error" role="alert">Date cannot be in the future.</div>
+            </div>
+
+            <!-- Complaint Description -->
+            <div class="form-field-group full-width">
+              <div class="label-with-counter">
+                <label for="complaint-description" class="field-label">
+                  Detailed Complaint Description <span class="required" aria-hidden="true">*</span>
+                </label>
+                <span class="char-counter" id="char-counter">0 / 1000 characters</span>
+              </div>
+              <textarea id="complaint-description" name="complaint_description" rows="5" class="field-textarea" placeholder="Explain the problem in detail. For example: How big is the road pothole? Is dirty water leaking into drinking lines? How many households are affected?" required minlength="15" maxlength="1000" aria-describedby="desc-hint desc-error"></textarea>
+              <div class="field-hint" id="desc-hint">Minimum 15 characters. Clear descriptions help the Panchayat take swift action.</div>
+              <div class="field-error" id="desc-error" role="alert">Please provide a detailed description (at least 15 characters).</div>
+            </div>
+
+            <!-- Optional Photograph Upload -->
+            <div class="form-field-group full-width">
+              <label class="field-label" id="photo-upload-label">
+                Upload Photograph of Problem <span class="optional-tag">(Optional)</span>
+              </label>
+              <div class="upload-dropzone" id="upload-dropzone" role="button" tabindex="0" aria-labelledby="photo-upload-label">
+                <input type="file" id="photo-upload" name="photo_upload" accept="image/png, image/jpeg, image/jpg, image/webp" class="file-input-hidden">
+                <div class="dropzone-content" id="dropzone-prompt">
+                  <div class="upload-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                  </div>
+                  <strong class="dropzone-title">Click to choose a photo or drag &amp; drop here</strong>
+                  <span class="dropzone-sub">Supported formats: JPG, PNG, WEBP (Max size: 5 MB)</span>
+                </div>
+
+                <!-- Preview container when an image is selected -->
+                <div class="dropzone-preview" id="dropzone-preview" style="display: none;">
+                  <img id="preview-image" src="" alt="Selected problem photograph preview" class="preview-thumb">
+                  <div class="preview-details">
+                    <strong id="preview-filename">image.jpg</strong>
+                    <span id="preview-filesize">1.2 MB</span>
+                    <button type="button" id="btn-remove-photo" class="btn-remove-file" aria-label="Remove photo">Remove Photo</button>
+                  </div>
+                </div>
+              </div>
+              <div class="field-hint">Adding a photo helps village maintenance staff prepare the right materials before visiting.</div>
+              <div class="field-error" id="photo-error" role="alert">File must be an image under 5 MB.</div>
+            </div>
+
+          </fieldset>
+
+          <!-- 3. IDENTIFIED CONTACT DETAILS (Only displayed when Mode B is selected) -->
+          <fieldset class="form-fieldset" id="fieldset-identity" style="display: none;">
+            <legend class="fieldset-legend">
+              <span class="legend-number">3</span>
+              <span>Your Contact Details <span class="required">*</span></span>
+            </legend>
+            <p class="fieldset-desc">
+              These details will only be used by Panchayat officers to coordinate the repair. They will not be shown to other citizens.
+            </p>
+
+            <div class="form-grid">
+              
+              <!-- Full Name -->
+              <div class="form-field-group">
+                <label for="citizen-name" class="field-label">
+                  Full Name <span class="required" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="citizen-name" name="citizen_name" class="field-input" placeholder="e.g., Ramesh Kumar" maxlength="70" aria-describedby="name-hint name-error">
+                <div class="field-hint" id="name-hint">Enter your full name as recognized locally.</div>
+                <div class="field-error" id="name-error" role="alert">Please enter your full name (at least 2 characters).</div>
+              </div>
+
+              <!-- Phone Number -->
+              <div class="form-field-group">
+                <label for="citizen-phone" class="field-label">
+                  Mobile Phone Number <span class="required" aria-hidden="true">*</span>
+                </label>
+                <input type="tel" id="citizen-phone" name="citizen_phone" class="field-input" placeholder="e.g., 9876543210" maxlength="10" pattern="[0-9]{10}" aria-describedby="phone-hint phone-error">
+                <div class="field-hint" id="phone-hint">10-digit mobile number for status SMS updates.</div>
+                <div class="field-error" id="phone-error" role="alert">Please enter a valid 10-digit mobile number.</div>
+              </div>
+
+              <!-- Email Address (Optional) -->
+              <div class="form-field-group full-width">
+                <label for="citizen-email" class="field-label">
+                  Email Address <span class="optional-tag">(Optional)</span>
+                </label>
+                <input type="email" id="citizen-email" name="citizen_email" class="field-input" placeholder="e.g., ramesh@example.com" maxlength="100" aria-describedby="email-hint email-error">
+                <div class="field-hint" id="email-hint">Optional: for receiving digital acknowledgement copies.</div>
+                <div class="field-error" id="email-error" role="alert">Please enter a valid email address or leave blank.</div>
+              </div>
+
+            </div>
+          </fieldset>
+
+          <!-- 4. SUBMISSION ACTIONS -->
+          <div class="form-actions-wrapper">
+            <div class="actions-left">
+              <button type="submit" id="btn-validate-form" class="btn btn-primary btn-validate">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                <span>Submit Complaint to Gram Panchayat Database</span>
+              </button>
+              
+              <button type="button" id="btn-reset-form" class="btn btn-secondary-outline">
+                <span>Reset Form</span>
+              </button>
+            </div>
+
+            <div class="actions-right">
+              <a href="index.html" class="btn-text-back">Cancel and return to homepage</a>
+            </div>
+          </div>
+
+        </form>
+
+      </section>
+
+      <!-- 5. FRONTEND TEST VALIDATION RESULT PANEL (Shown after successful validation) -->
+      <section id="validation-success-panel" class="validation-success-panel" style="display: none;" aria-live="polite">
+        <div class="panel-header">
+          <div class="success-badge-icon" aria-hidden="true">✓</div>
+          <div>
+            <span class="panel-tag">Stage 2 Frontend Validation Successful</span>
+            <h2 class="panel-title">Complaint Form Validated &amp; Ready for Backend Integration</h2>
+          </div>
+        </div>
+
+        <div class="panel-disclaimer-box">
+          <div class="p-icon" aria-hidden="true">⚠️</div>
+          <div class="p-text">
+            <strong>Educational Prototype Status:</strong>
+            Because this is the frontend-only stage, <strong>no complaint has been stored in a database</strong>,
+            no fake reference number is fabricated, and complaints are <strong>not</strong> being dispatched to real government officials.
+            When the backend API is connected in Stage 3, the validated data below will be transmitted securely to the server.
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <h3 class="summary-heading">Validated Data Payload Inspection:</h3>
+          <div class="summary-grid" id="summary-details-grid">
+            <!-- Dynamically populated by submit-form.js -->
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button type="button" id="btn-edit-form" class="btn btn-secondary">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            <span>Edit Form Details</span>
+          </button>
+
+          <a href="index.html" class="btn btn-primary">
+            <span>Back to Homepage</span>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" id="main-footer">
+    <div class="container footer-container">
+      
+      <!-- Footer Col 1 -->
+      <div class="footer-col col-about">
+        <div class="footer-brand">
+          <div class="brand-emblem-small" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="emblem-svg-sm">
+              <rect width="24" height="24" rx="6" fill="#18794e"/>
+              <path d="M12 4L5 10V19C5 19.5 5.5 20 6 20H18C18.5 20 19 19.5 19 19V10L12 4Z" fill="#ffffff" fill-opacity="0.3"/>
+              <path d="M12 6L6 11V19H18V11L12 6Z" stroke="#ffffff" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <span class="footer-brand-name">Gram Panchayat Portal</span>
+        </div>
+        <p class="footer-text">
+          A prototype public-service web application designed to bridge the trust gap between village residents and local administration through open, anonymous complaint reporting and verifiable resolution tracking.
+        </p>
+        <div class="academic-disclaimer">
+          ⚠️ <strong>Prototype Notice:</strong> This website is an educational demonstration. It is not an official government portal and does not dispatch real-world municipal workers.
+        </div>
+      </div>
+
+      <!-- Footer Col 2 -->
+      <div class="footer-col col-links">
+        <h4 class="footer-heading">Navigation</h4>
+        <ul class="footer-nav-list">
+          <li><a href="index.html">Portal Home</a></li>
+          <li><a href="index.html#categories">Complaint Categories</a></li>
+          <li><a href="index.html#how-it-works">How It Works</a></li>
+          <li><a href="index.html#tracking-demo">Track Existing Issue</a></li>
+          <li><a href="index.html#transparency">Transparency Principles</a></li>
+          <li><a href="index.html#contact">Helpdesk &amp; Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Footer Col 3 -->
+      <div class="footer-col col-privacy">
+        <h4 class="footer-heading">Privacy &amp; Anonymity</h4>
+        <ul class="footer-info-list">
+          <li>
+            <strong>Zero Forced Sign-in:</strong> Citizens can report grievances without supplying phone numbers, email addresses, or Aadhaar details.
+          </li>
+          <li>
+            <strong>Anti-Retaliation Protection:</strong> Submitter IP and personal device identifiers are not displayed on any public dashboard.
+          </li>
+          <li>
+            <strong>Open Data Safety:</strong> Only civic issue details, ward location, and photo evidence are visible on the village ledger.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Footer Col 4 -->
+      <div class="footer-col col-accessibility">
+        <h4 class="footer-heading">Accessibility &amp; Inclusivity</h4>
+        <ul class="footer-info-list">
+          <li>
+            <strong>High-Contrast Ready:</strong> High contrast color mode available for visually impaired users.
+          </li>
+          <li>
+            <strong>Scalable Typography:</strong> Instant text magnification buttons located at the top bar.
+          </li>
+          <li>
+            <strong>Bilingual Vision:</strong> Built with semantic HTML to support future localized Kannada (ಕನ್ನಡ) screen readers.
+          </li>
+          <li>
+            <strong>Low Bandwidth Optimized:</strong> Lightweight CSS &amp; vanilla JS without bloated external dependencies.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Strip -->
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p class="copyright">
+          &copy; <span id="current-year">2026</span> Gram Panchayat Transparent Complaint Portal • Academic Project Prototype
+        </p>
+        <p class="tech-stack-credit">
+          Clean Web Standards (HTML5 / CSS3 / Vanilla JavaScript) • No external tracking cookies
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Registration Form Specific Script -->
+  <script src="submit-form.js"></script>
+</body>
+</html>

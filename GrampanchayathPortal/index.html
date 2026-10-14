@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gram Panchayat Transparent Complaint Portal - A community-first prototype empowering citizens to report rural civic issues anonymously and track resolution progress openly.">
+  <title>Gram Panchayat Transparent Complaint Portal | ಗ್ರಾಮ ಪಂಚಾಯತ್ ದೂರು ಪೋರ್ಟಲ್</title>
+
+  <!-- Google Fonts for modern typography & Kannada script support -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+
+  <!-- TOP ACCESSIBILITY & PROTOTYPE NOTICE BAR -->
+  <aside class="top-announcement" aria-label="Prototype announcement and accessibility bar">
+    <div class="container announcement-content">
+      <div class="prototype-tag">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span class="badge-text"><strong>Project Prototype:</strong> Educational &amp; Civic Tech Demonstration (Not an Official Govt. Service)</span>
+      </div>
+
+      <div class="top-controls">
+        <!-- Accessibility Font Controls -->
+        <div class="font-resizer" role="group" aria-label="Adjust font size">
+          <span class="ctrl-label" id="font-ctrl-label">Text Size:</span>
+          <button type="button" id="btn-font-decrease" class="ctrl-btn" aria-label="Decrease text size" title="Smaller font">A-</button>
+          <button type="button" id="btn-font-reset" class="ctrl-btn active" aria-label="Reset text size" title="Standard font">A</button>
+          <button type="button" id="btn-font-increase" class="ctrl-btn" aria-label="Increase text size" title="Larger font">A+</button>
+        </div>
+
+        <!-- High Contrast Mode Toggle -->
+        <button type="button" id="btn-contrast-toggle" class="contrast-btn" aria-pressed="false" title="Switch high contrast mode for readability">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 0 20Z"></path></svg>
+          <span>High Contrast</span>
+        </button>
+
+        <!-- Future Language Switcher Demo (English / Kannada) -->
+        <div class="lang-switch-wrap">
+          <label for="lang-selector" class="sr-only">Select Portal Language</label>
+          <select id="lang-selector" class="lang-select" aria-label="Language selector">
+            <option value="en" selected>English</option>
+            <option value="kn">ಕನ್ನಡ (Kannada Preview)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 1. HEADER & MAIN NAVIGATION -->
+  <header class="site-header" id="main-header">
+    <div class="container nav-container">
+      <!-- Portal Branding -->
+      <a href="#top" class="brand-link" aria-label="Gram Panchayat Complaint Portal Home">
+        <div class="brand-emblem" aria-hidden="true">
+          <!-- Stylized Village Community Icon (Non-governmental civic emblem) -->
+          <svg viewBox="0 0 48 48" fill="none" class="emblem-svg">
+            <rect width="48" height="48" rx="12" fill="#18794e"/>
+            <path d="M24 8L10 19V38C10 39.1 10.9 40 12 40H36C37.1 40 38 39.1 38 38V19L24 8Z" fill="#ffffff" fill-opacity="0.2"/>
+            <path d="M24 12L13 21V38H35V21L24 12Z" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M24 22C21.79 22 20 23.79 20 26C20 28.5 24 33 24 33C24 33 28 28.5 28 26C28 23.79 26.21 22 24 22Z" fill="#ffffff"/>
+            <circle cx="24" cy="26" r="1.5" fill="#18794e"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Gram Panchayat</span>
+          <span class="brand-subtitle">Transparent Complaint Portal</span>
+          <span class="brand-kannada" lang="kn">ಗ್ರಾಮ ಪಂಚಾಯತ್ ದೂರು ಪರಿಹಾರ ವೇದಿಕೆ</span>
+        </div>
+      </a>
+
+      <!-- Mobile Navigation Hamburger -->
+      <button type="button" class="nav-toggle" id="nav-toggle-btn" aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <!-- Primary Navigation Links -->
+      <nav class="primary-nav" id="primary-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#top" class="nav-link active">Home</a></li>
+          <li class="nav-item"><a href="#categories" class="nav-link">Categories</a></li>
+          <li class="nav-item"><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li class="nav-item"><a href="#transparency" class="nav-link">Transparency</a></li>
+          <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="#tracking-demo" class="btn btn-outline-nav">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span>Track Complaint</span>
+          </a>
+          <a href="submit-complaint.html" class="btn btn-primary-nav" id="btn-nav-submit">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            <span>Submit Complaint</span>
+          </a>
+          <a href="admin.html" class="btn-official-portal" title="Authorized Panchayat Staff & Officer Login">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Staff Login</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. HERO SECTION -->
+    <section class="hero-section" id="hero" aria-labelledby="hero-title">
+      <div class="hero-bg-accent" aria-hidden="true"></div>
+      <div class="container hero-container">
+        
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="icon-tag" aria-hidden="true">🏛️</span>
+            <span>Empowering Rural Citizens With Open Civic Tech</span>
+          </div>
+
+          <h1 id="hero-title" class="hero-heading">
+            Your Voice, Your Village, <span class="highlight-text">Your Future</span>
+          </h1>
+
+          <p class="hero-description">
+            A transparent and accessible digital initiative designed for rural residents.
+            Report village problems such as damaged roads, broken streetlights, or water shortages
+            <strong>with complete anonymity</strong>, receive a tracking reference code, and monitor real-world progress without middlemen.
+          </p>
+
+          <!-- Core Call to Action Buttons -->
+          <div class="hero-buttons">
+            <a href="submit-complaint.html" class="btn btn-primary btn-lg" id="hero-submit-btn">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              <span>Submit a Complaint</span>
+              <small class="btn-subtext">(100% Anonymous Option Available)</small>
+            </a>
+
+            <a href="#tracking-demo" class="btn btn-secondary btn-lg" id="hero-track-btn">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>Track Complaint</span>
+              <small class="btn-subtext">(Enter Your Reference ID)</small>
+            </a>
+          </div>
+
+          <!-- Trust & Usability Highlights -->
+          <div class="hero-trust-indicators" aria-label="Portal key features">
+            <div class="trust-item">
+              <div class="trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <div class="trust-text">
+                <strong>No Login Required</strong>
+                <span>Submit safely without personal fear</span>
+              </div>
+            </div>
+
+            <div class="trust-item">
+              <div class="trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              </div>
+              <div class="trust-text">
+                <strong>Verifiable Reference ID</strong>
+                <span>Permanent tracking token for every issue</span>
+              </div>
+            </div>
+
+            <div class="trust-item">
+              <div class="trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              </div>
+              <div class="trust-text">
+                <strong>Public Timeline</strong>
+                <span>Open accountability on civic action</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hero Visual / Overview Card -->
+        <div class="hero-visual">
+          <div class="civic-card-preview" role="region" aria-label="Civic portal interface overview">
+            <div class="preview-header">
+              <div class="status-indicator">
+                <span class="status-live-pulse" aria-hidden="true"></span>
+                <span>Portal Live Architecture Preview</span>
+              </div>
+              <span class="preview-badge">Village Ward Level</span>
+            </div>
+
+            <div class="preview-body">
+              <div class="preview-step-box">
+                <div class="step-num-pill">1</div>
+                <div class="step-desc">
+                  <strong>Citizen Submits Problem</strong>
+                  <span>Photo + Ward Location + Details</span>
+                </div>
+              </div>
+              <div class="flow-connector" aria-hidden="true">↓</div>
+              <div class="preview-step-box active-glow">
+                <div class="step-num-pill">2</div>
+                <div class="step-desc">
+                  <strong>Logged into Public Ledger</strong>
+                  <span>Assigned Tracking Code: <code>GP-2026-W04-019</code></span>
+                </div>
+              </div>
+              <div class="flow-connector" aria-hidden="true">↓</div>
+              <div class="preview-step-box">
+                <div class="step-num-pill">3</div>
+                <div class="step-desc">
+                  <strong>Panchayat Action &amp; Photo Proof</strong>
+                  <span>Status verified openly before closing</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-footer-note">
+              <p>🌱 <em>Designed to foster trust, prevent duplicate work, and make village administration answerable to every resident.</em></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. COMPLAINT CATEGORIES SECTION -->
+    <section class="section categories-section" id="categories" aria-labelledby="categories-title">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag">Common Village Issues</div>
+          <h2 id="categories-title" class="section-title">Complaint Categories</h2>
+          <p class="section-subtitle">
+            Select a category below to see common civic problems handled by the Gram Panchayat.
+            In future stages, selecting a card will open a pre-filled submission form.
+          </p>
+        </div>
+
+        <div class="category-grid" role="list">
+          
+          <!-- Category 1: Roads -->
+          <article class="category-card" role="listitem" data-category="roads">
+            <div class="cat-icon-wrap cat-icon-roads" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19L9 5M15 5L20 19M12 7V9M12 13V15M12 19V21"></path>
+              </svg>
+            </div>
+            <div class="cat-header">
+              <h3 class="cat-title">Roads &amp; Pathways</h3>
+              <span class="cat-kannada" lang="kn">ರಸ್ತೆ ಮತ್ತು ಕಾಲುದಾರಿಗಳು</span>
+            </div>
+            <p class="cat-desc">
+              Potholes, washed-out dirt roads, broken speed humps, missing culverts, or unsafe pedestrian pathways.
+            </p>
+            <ul class="cat-examples" aria-label="Typical road issues">
+              <li>Damaged village main roads</li>
+              <li>Waterlogging due to unpaved mud tracks</li>
+              <li>Missing street signs or hazard warning</li>
+            </ul>
+            <a href="submit-complaint.html?category=roads" class="btn-category-action">
+              <span>Report Road Issue</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </article>
+
+          <!-- Category 2: Water Supply -->
+          <article class="category-card" role="listitem" data-category="water">
+            <div class="cat-icon-wrap cat-icon-water" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+            </div>
+            <div class="cat-header">
+              <h3 class="cat-title">Water Supply</h3>
+              <span class="cat-kannada" lang="kn">ಕುಡಿಯುವ ನೀರು ಸರಬರಾಜು</span>
+            </div>
+            <p class="cat-desc">
+              Public tap leaks, borewell pump breakdowns, contaminated water lines, or irregular tanker distribution.
+            </p>
+            <ul class="cat-examples" aria-label="Typical water issues">
+              <li>Broken village hand-pumps &amp; motors</li>
+              <li>Leaking underground pipelines</li>
+              <li>Overhead water tank contamination</li>
+            </ul>
+            <a href="submit-complaint.html?category=water" class="btn-category-action">
+              <span>Report Water Issue</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </article>
+
+          <!-- Category 3: Streetlights -->
+          <article class="category-card" role="listitem" data-category="streetlights">
+            <div class="cat-icon-wrap cat-icon-streetlights" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="9" y1="18" x2="15" y2="18"></line>
+                <line x1="10" y1="22" x2="14" y2="22"></line>
+                <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path>
+              </svg>
+            </div>
+            <div class="cat-header">
+              <h3 class="cat-title">Streetlights</h3>
+              <span class="cat-kannada" lang="kn">ಬೀದಿ ದೀಪಗಳ ನಿರ್ವಹಣೆ</span>
+            </div>
+            <p class="cat-desc">
+              Non-functioning streetlight fixtures, pitch-black village junctions, faulty timers, or damaged poles.
+            </p>
+            <ul class="cat-examples" aria-label="Typical streetlight issues">
+              <li>Dark school roads &amp; bus stops</li>
+              <li>Flickering or blown sodium / LED bulbs</li>
+              <li>Exposed wiring on electrical poles</li>
+            </ul>
+            <a href="submit-complaint.html?category=streetlights" class="btn-category-action">
+              <span>Report Streetlight Issue</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </article>
+
+          <!-- Category 4: Drainage -->
+          <article class="category-card" role="listitem" data-category="drainage">
+            <div class="cat-icon-wrap cat-icon-drainage" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12h20M2 16h20M2 20h20M4 4v16M20 4v16M12 4v16"></path>
+              </svg>
+            </div>
+            <div class="cat-header">
+              <h3 class="cat-title">Drainage &amp; Gutters</h3>
+              <span class="cat-kannada" lang="kn">ಚರಂಡಿ ಮತ್ತು ಒಳಚರಂಡಿ ವ್ಯವಸ್ಥೆ</span>
+            </div>
+            <p class="cat-desc">
+              Clogged storm drains, stagnant wastewater creating mosquito breeding grounds, broken ditch slabs.
+            </p>
+            <ul class="cat-examples" aria-label="Typical drainage issues">
+              <li>Overflowing wastewater on village streets</li>
+              <li>Plastic blockage in rainwater drains</li>
+              <li>Missing concrete drain covers</li>
+            </ul>
+            <a href="submit-complaint.html?category=drainage" class="btn-category-action">
+              <span>Report Drainage Issue</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </article>
+
+          <!-- Category 5: Waste Management -->
+          <article class="category-card" role="listitem" data-category="waste">
+            <div class="cat-icon-wrap cat-icon-waste" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+              </svg>
+            </div>
+            <div class="cat-header">
+              <h3 class="cat-title">Waste Management</h3>
+              <span class="cat-kannada" lang="kn">ಘನ ತ್ಯಾಜ್ಯ ವಿಲೇವಾರಿ</span>
+            </div>
+            <p class="cat-desc">
+              Illegal dumping near water bodies, uncollected community bins, burning of plastics, or agricultural trash piles.
+            </p>
+            <ul class="cat-examples" aria-label="Typical waste issues">
+              <li>Full and unemptied village garbage bins</li>
+              <li>Littering across open grazing land</li>
+              <li>Hazardous open plastic burning</li>
+            </ul>
+            <a href="submit-complaint.html?category=waste" class="btn-category-action">
+              <span>Report Waste Issue</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </article>
+
+          <!-- Category 6: Public Sanitation -->
+          <article class="category-card" role="listitem" data-category="sanitation">
+            <div class="cat-icon-wrap cat-icon-sanitation" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <div class="cat-header">
+              <h3 class="cat-title">Public Sanitation</h3>
+              <span class="cat-kannada" lang="kn">ಸಾರ್ವಜನಿಕ ನೈರ್ಮಲ್ಯ ಮತ್ತು ಸ್ವಚ್ಛತೆ</span>
+            </div>
+            <p class="cat-desc">
+              Community toilet hygiene issues, lack of running water in community washrooms, open defecation points, or pest control.
+            </p>
+            <ul class="cat-examples" aria-label="Typical sanitation issues">
+              <li>Unsanitary community toilet complexes</li>
+              <li>Blocked septic tanks or bio-toilets</li>
+              <li>Need for disinfectant or bleaching spray</li>
+            </ul>
+            <a href="submit-complaint.html?category=sanitation" class="btn-category-action">
+              <span>Report Sanitation Issue</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. HOW IT WORKS SECTION -->
+    <section class="section how-section" id="how-it-works" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag">Simple 4-Step Process</div>
+          <h2 id="how-title" class="section-title">How It Works</h2>
+          <p class="section-subtitle">
+            Designed for ease of use by any villager. No complicated paperwork, no visits to government offices.
+          </p>
+        </div>
+
+        <div class="steps-grid">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-badge">Step 1</div>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <h3 class="step-title">Submit a Complaint</h3>
+            <p class="step-text">
+              Select your village ward, describe the issue, and optionally snap and attach a photo. You can choose to remain <strong>100% anonymous</strong> without sharing your name or contact number.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-badge">Step 2</div>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <h3 class="step-title">Receive a Reference Number</h3>
+            <p class="step-text">
+              As soon as your complaint is submitted, the system produces a unique tracking token (e.g., <code>GP-2026-W03-014</code>). Keep this code safe to monitor updates anytime.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-badge">Step 3</div>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h3 class="step-title">Track the Progress</h3>
+            <p class="step-text">
+              Type your reference ID into the tracking portal. View every milestone as your grievance moves from <em>Submitted</em> to <em>Inspection Scheduled</em> and <em>Work in Progress</em>.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-card">
+            <div class="step-badge">Step 4</div>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <h3 class="step-title">View Action Taken</h3>
+            <p class="step-text">
+              Before an issue is closed, the Gram Panchayat team must log the resolution details, contractor/work notes, and verification photos visible to all village members.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE TRACKING PREVIEW (SIMULATOR FOR PROTOTYPE DEMO) -->
+    <section class="section track-preview-section" id="tracking-demo" aria-labelledby="track-title">
+      <div class="container">
+        <div class="track-box">
+          <div class="track-box-header">
+            <div class="track-box-titles">
+              <span class="section-tag">Interactive Prototype Demo</span>
+              <h2 id="track-title" class="track-heading">Track Complaint Status</h2>
+              <p class="track-sub">Test how citizens will enter their reference ID to see real-time updates and proof of work.</p>
+            </div>
+            <div class="sample-pill-group">
+              <span class="sample-label">Try sample demo IDs:</span>
+              <button type="button" class="btn-sample-id" data-sample-id="GP-DEMO-ROAD-01">GP-DEMO-ROAD-01 (In Progress)</button>
+              <button type="button" class="btn-sample-id" data-sample-id="GP-DEMO-WATER-02">GP-DEMO-WATER-02 (Resolved)</button>
+            </div>
+          </div>
+
+          <!-- Search Form -->
+          <form class="track-search-form" id="track-search-form" onsubmit="return false;">
+            <div class="input-with-button">
+              <label for="tracking-input" class="sr-only">Enter Reference ID</label>
+              <div class="input-icon-wrap">
+                <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="tracking-input" class="track-input" placeholder="Enter reference code (e.g., GP-DEMO-ROAD-01)" autocomplete="off">
+              </div>
+              <button type="button" id="btn-search-tracking" class="btn btn-primary">
+                <span>Check Status</span>
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </div>
+            <p class="track-hint">
+              ℹ️ In this frontend prototype, sample records are simulated locally in JavaScript without any backend server.
+            </p>
+          </form>
+
+          <!-- Tracking Result Container (Dynamically updated by script.js) -->
+          <div id="tracking-result-panel" class="tracking-result-panel" aria-live="polite">
+            <!-- Default preview state loaded by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TRANSPARENCY & ACCOUNTABILITY SECTION -->
+    <section class="section transparency-section" id="transparency" aria-labelledby="transparency-title">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag">Open Governance Architecture</div>
+          <h2 id="transparency-title" class="section-title">How Our Transparency Model Works</h2>
+          <p class="section-subtitle">
+            Rather than showing fabricated statistics, this section explains the strict operational principles
+            and public verification standards that will govern this portal once integrated with the Gram Panchayat database.
+          </p>
+        </div>
+
+        <!-- LIVE DATABASE TRANSPARENCY DASHBOARD (STAGE 5 REAL METRICS) -->
+        <div class="live-transparency-card" id="live-transparency-card">
+          <div class="live-card-header">
+            <div class="live-header-titles">
+              <div class="live-status-pill">
+                <span class="live-pulse-dot" aria-hidden="true"></span>
+                <span>Real-Time Database Stream</span>
+              </div>
+              <h3 class="live-stats-title">Live Gram Panchayat Grievance Metrics</h3>
+              <p class="live-stats-sub">
+                Directly calculated from the SQLite civic ledger (<code>data/complaints.db</code>). Zero fabricated statistics.
+              </p>
+            </div>
+            <div class="live-header-actions">
+              <span class="last-updated-tag" id="stats-last-updated">Connecting to ledger...</span>
+              <button type="button" id="btn-refresh-stats" class="btn btn-sm btn-outline" title="Refresh live statistics from database">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
+                <span>Refresh</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI Cards Grid -->
+          <div class="live-kpi-grid" id="live-kpi-grid">
+            <div class="kpi-metric-box">
+              <div class="kpi-num" id="stat-total">-</div>
+              <div class="kpi-label">Total Received</div>
+              <div class="kpi-hint">All logged citizen complaints</div>
+            </div>
+            <div class="kpi-metric-box pending">
+              <div class="kpi-num" id="stat-pending">-</div>
+              <div class="kpi-label">Pending / Under Review</div>
+              <div class="kpi-hint">Awaiting inspection or review</div>
+            </div>
+            <div class="kpi-metric-box in-progress">
+              <div class="kpi-num" id="stat-in-progress">-</div>
+              <div class="kpi-label">Work in Progress</div>
+              <div class="kpi-hint">Assigned &amp; repair ongoing</div>
+            </div>
+            <div class="kpi-metric-box resolved">
+              <div class="kpi-num" id="stat-verified">-</div>
+              <div class="kpi-label">Verified Resolved</div>
+              <div class="kpi-hint">Independently confirmed fixed</div>
+            </div>
+            <div class="kpi-metric-box overdue">
+              <div class="kpi-num" id="stat-overdue">-</div>
+              <div class="kpi-label">Overdue (SLA Exceeded)</div>
+              <div class="kpi-hint">Past standard resolution window</div>
+            </div>
+            <div class="kpi-metric-box avg-time">
+              <div class="kpi-num" id="stat-avg-days">-</div>
+              <div class="kpi-label">Avg. Resolution Time</div>
+              <div class="kpi-hint">Days from submission to fix</div>
+            </div>
+          </div>
+
+          <!-- Breakdowns Grid: Category Distribution & Ward Statistics with Privacy Protection -->
+          <div class="live-breakdowns-grid">
+            <!-- Category Breakdown -->
+            <div class="breakdown-panel">
+              <h4 class="breakdown-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="breakdown-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                Complaint Category Breakdown
+              </h4>
+              <div class="category-bars-list" id="category-bars-container">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Loading category distribution...</p>
+              </div>
+            </div>
+
+            <!-- Ward Statistics with Privacy Protection -->
+            <div class="breakdown-panel">
+              <h4 class="breakdown-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="breakdown-icon"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                Ward-Wise Grievance Distribution
+              </h4>
+              <div class="ward-bars-list" id="ward-bars-container">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Loading ward breakdown...</p>
+              </div>
+              <div class="privacy-k-anonymity-note" id="privacy-threshold-note">
+                🛡️ <strong>Small-Group Privacy Protection:</strong> Wards with fewer than 2 complaints are automatically aggregated into <em>"Other Village Wards"</em> to prevent deanonymizing individual residents in sparsely populated areas.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="transparency-cards-grid">
+          
+          <div class="transparency-card">
+            <div class="tp-icon-wrapper" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </div>
+            <h3 class="tp-title">1. Public Grievance Ledger</h3>
+            <p class="tp-text">
+              Every submitted issue (with personal identities stripped for privacy) is logged to a publicly browsable ward ledger. Residents can verify if a neighbor has already reported the same broken pipeline, avoiding duplicate complaints and saving Panchayat resources.
+            </p>
+            <div class="tp-feature-badge">Open Access</div>
+          </div>
+
+          <div class="transparency-card">
+            <div class="tp-icon-wrapper" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h3 class="tp-title">2. Timestamped Audit Trails</h3>
+            <p class="tp-text">
+              Complaints cannot be silently deleted or ignored. Every change in status—from inspection assignment to work order approval—records the exact date, time, and designated ward officer note into an immutable history trail.
+            </p>
+            <div class="tp-feature-badge">Audit Integrity</div>
+          </div>
+
+          <div class="transparency-card">
+            <div class="tp-icon-wrapper" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <h3 class="tp-title">3. Photo-Verified Resolution</h3>
+            <p class="tp-text">
+              An issue cannot be marked as "Resolved" with a simple checkbox. Gram Panchayat field staff must upload a verifiable completion photo and work summary, enabling villagers to confirm whether actual repair work took place.
+            </p>
+            <div class="tp-feature-badge">Verified Resolution</div>
+          </div>
+
+          <div class="transparency-card">
+            <div class="tp-icon-wrapper" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <h3 class="tp-title">4. Citizen Feedback &amp; Re-Open</h3>
+            <p class="tp-text">
+              If a reported issue is prematurely marked resolved or poorly executed, residents of that ward can flag the ticket for re-inspection within 7 days, maintaining continuous democratic oversight.
+            </p>
+            <div class="tp-feature-badge">Community Oversight</div>
+          </div>
+
+        </div>
+
+        <!-- Note regarding live statistics -->
+        <div class="stats-integrity-notice">
+          <div class="notice-icon" aria-hidden="true">💡</div>
+          <div class="notice-text">
+            <strong>Commitment to Data Honesty:</strong>
+            We intentionally do not display fabricated government statistics, resolution percentages, or mock officer leaderboards. Once connected to the local Gram Panchayat administration database in future phases, this section will stream verifiable, real-time metrics directly from authenticated civic records.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT / HELPDESK SECTION -->
+    <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact-card">
+          <div class="contact-info-col">
+            <span class="section-tag">Civic Support</span>
+            <h2 id="contact-title" class="contact-title">Gram Panchayat Citizen Helpdesk</h2>
+            <p class="contact-desc">
+              For elderly or non-digital citizens, community volunteers and Gram Panchayat ward assistants can submit digital grievances on their behalf at the village office.
+            </p>
+
+            <div class="contact-list">
+              <div class="contact-item">
+                <div class="ci-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div class="ci-details">
+                  <strong>Village Office Location</strong>
+                  <span>Gram Panchayat Office Bhavan, Main Road (Placeholder)</span>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="ci-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <div class="ci-details">
+                  <strong>Office Working Hours</strong>
+                  <span>Monday to Saturday: 10:00 AM – 5:30 PM (Except Public Holidays)</span>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="ci-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </div>
+                <div class="ci-details">
+                  <strong>Helpdesk Phone Placeholder</strong>
+                  <span>080-XXXXXXXX (Demonstration Placeholder)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Feedback / Prototype Question Form -->
+          <div class="contact-form-col">
+            <div class="feedback-box">
+              <h3 class="fb-title">Portal Feedback &amp; Suggestions</h3>
+              <p class="fb-sub">Have ideas on how to improve this civic platform prototype? Let the development team know:</p>
+              
+              <form id="feedback-form" onsubmit="return false;">
+                <div class="form-group">
+                  <label for="fb-name">Your Name (Optional)</label>
+                  <input type="text" id="fb-name" class="form-control" placeholder="Resident name or leave blank">
+                </div>
+                <div class="form-group">
+                  <label for="fb-village">Village / Ward Name</label>
+                  <input type="text" id="fb-village" class="form-control" placeholder="e.g., Ward 3, North Village">
+                </div>
+                <div class="form-group">
+                  <label for="fb-message">Suggestion / Question</label>
+                  <textarea id="fb-message" rows="3" class="form-control" placeholder="What civic feature would make this portal more useful for your village?"></textarea>
+                </div>
+                <button type="button" id="btn-submit-feedback" class="btn btn-primary btn-block">
+                  <span>Send Prototype Feedback</span>
+                </button>
+              </form>
+              <div id="fb-status-msg" class="fb-status-msg" aria-live="polite"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 6. FOOTER -->
+  <footer class="site-footer" id="main-footer">
+    <div class="container footer-container">
+      
+      <!-- Footer Col 1: About the portal -->
+      <div class="footer-col col-about">
+        <div class="footer-brand">
+          <div class="brand-emblem-small" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="emblem-svg-sm">
+              <rect width="24" height="24" rx="6" fill="#18794e"/>
+              <path d="M12 4L5 10V19C5 19.5 5.5 20 6 20H18C18.5 20 19 19.5 19 19V10L12 4Z" fill="#ffffff" fill-opacity="0.3"/>
+              <path d="M12 6L6 11V19H18V11L12 6Z" stroke="#ffffff" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <span class="footer-brand-name">Gram Panchayat Portal</span>
+        </div>
+        <p class="footer-text">
+          A prototype public-service web application designed to bridge the trust gap between village residents and local administration through open, anonymous complaint reporting and verifiable resolution tracking.
+        </p>
+        <div class="academic-disclaimer">
+          ⚠️ <strong>Prototype Notice:</strong> This website is an educational demonstration. It is not an official government portal and does not dispatch real-world municipal workers.
+        </div>
+      </div>
+
+      <!-- Footer Col 2: Navigation Shortcuts -->
+      <div class="footer-col col-links">
+        <h4 class="footer-heading">Navigation</h4>
+        <ul class="footer-nav-list">
+          <li><a href="#top">Portal Home</a></li>
+          <li><a href="submit-complaint.html">Register a Complaint</a></li>
+          <li><a href="#categories">Complaint Categories</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#tracking-demo">Track Existing Issue</a></li>
+          <li><a href="#transparency">Transparency Principles</a></li>
+          <li><a href="#contact">Helpdesk &amp; Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Footer Col 3: Privacy & Anonymous Protection -->
+      <div class="footer-col col-privacy">
+        <h4 class="footer-heading">Privacy &amp; Anonymity</h4>
+        <ul class="footer-info-list">
+          <li>
+            <strong>Zero Forced Sign-in:</strong> Citizens can report grievances without supplying phone numbers, email addresses, or Aadhaar details.
+          </li>
+          <li>
+            <strong>Anti-Retaliation Protection:</strong> Submitter IP and personal device identifiers are not displayed on any public dashboard.
+          </li>
+          <li>
+            <strong>Open Data Safety:</strong> Only civic issue details, ward location, and photo evidence are visible on the village ledger.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Footer Col 4: Accessibility Information -->
+      <div class="footer-col col-accessibility">
+        <h4 class="footer-heading">Accessibility &amp; Inclusivity</h4>
+        <ul class="footer-info-list">
+          <li>
+            <strong>High-Contrast Ready:</strong> High contrast color mode available for visually impaired users.
+          </li>
+          <li>
+            <strong>Scalable Typography:</strong> Instant text magnification buttons located at the top bar.
+          </li>
+          <li>
+            <strong>Bilingual Vision:</strong> Built with semantic HTML to support future localized Kannada (ಕನ್ನಡ) screen readers and text.
+          </li>
+          <li>
+            <strong>Low Bandwidth Optimized:</strong> Lightweight CSS &amp; vanilla JS without bloated external frameworks.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright & Credit Strip -->
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p class="copyright">
+          &copy; <span id="current-year">2026</span> Gram Panchayat Transparent Complaint Portal • Academic Project Prototype
+        </p>
+        <p class="tech-stack-credit">
+          Clean Web Standards (HTML5 / CSS3 / Vanilla JavaScript) • No external tracking cookies
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PROTOTYPE SUBMISSION MODAL (Simulated User Interface) -->
+  <div id="submit-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <span class="modal-pill">Prototype Demonstration</span>
+          <h3 id="modal-title" class="modal-heading">Submit a Village Complaint</h3>
+        </div>
+        <button type="button" class="btn-close-modal" id="btn-close-modal" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-alert">
+          ℹ️ <strong>Prototype Simulation:</strong> Filling this form creates a simulated ticket in your browser's local memory. You will receive an immediate demo tracking number to test the tracking system!
+        </div>
+
+        <form id="prototype-complaint-form" onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="comp-category">Select Category <span class="required">*</span></label>
+              <select id="comp-category" class="form-control" required>
+                <option value="Roads & Pathways">Roads &amp; Pathways (ರಸ್ತೆಗಳು)</option>
+                <option value="Water Supply">Water Supply (ಕುಡಿಯುವ ನೀರು)</option>
+                <option value="Streetlights">Streetlights (ಬೀದಿ ದೀಪಗಳು)</option>
+                <option value="Drainage & Gutters">Drainage &amp; Gutters (ಚರಂಡಿ)</option>
+                <option value="Waste Management">Waste Management (ತ್ಯಾಜ್ಯ ವಿಲೇವಾರಿ)</option>
+                <option value="Public Sanitation">Public Sanitation (ಸಾರ್ವಜನಿಕ ನೈರ್ಮಲ್ಯ)</option>
+              </select>
+            </div>
+
+            <div class="form-group flex-1">
+              <label for="comp-ward">Village Ward / Area <span class="required">*</span></label>
+              <select id="comp-ward" class="form-control" required>
+                <option value="Ward 1 - North Colony">Ward 1 - North Colony</option>
+                <option value="Ward 2 - Market & School Road">Ward 2 - Market &amp; School Road</option>
+                <option value="Ward 3 - Temple Street">Ward 3 - Temple Street</option>
+                <option value="Ward 4 - East Extension">Ward 4 - East Extension</option>
+                <option value="Ward 5 - Lake Road / Lake View">Ward 5 - Lake Road</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="comp-landmark">Specific Landmark / Location Details <span class="required">*</span></label>
+            <input type="text" id="comp-landmark" class="form-control" placeholder="e.g. Near Government Primary School water tank" required>
+          </div>
+
+          <div class="form-group">
+            <label for="comp-description">Problem Description <span class="required">*</span></label>
+            <textarea id="comp-description" rows="3" class="form-control" placeholder="Describe what is broken, for how many days, and safety risks..." required></textarea>
+          </div>
+
+          <!-- Anonymous Option Switch -->
+          <div class="anonymity-box">
+            <div class="checkbox-wrap">
+              <input type="checkbox" id="comp-anonymous" checked>
+              <label for="comp-anonymous">
+                <strong>Submit 100% Anonymously</strong>
+                <span>Do not record or ask for my personal identity or phone number.</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="btn-cancel-modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="btn-submit-complaint">
+              <span>Generate Tracking Ticket</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Success Ticket Display -->
+        <div id="modal-success-screen" class="modal-success-screen" style="display: none;">
+          <div class="success-icon" aria-hidden="true">✓</div>
+          <h4>Complaint Registered in Local Prototype!</h4>
+          <p>Here is your demonstration reference code. Copy it or click "View in Tracker" below:</p>
+          <div class="generated-token-box">
+            <span id="generated-token-text">GP-DEMO-NEW-99</span>
+          </div>
+          <div class="success-btn-group">
+            <button type="button" class="btn btn-primary" id="btn-jump-to-tracker">View in Live Tracker</button>
+            <button type="button" class="btn btn-secondary" id="btn-modal-done">Done</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
